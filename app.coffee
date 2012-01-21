@@ -3,7 +3,6 @@
 express = require 'express'
 routes = require './routes'
 app = module.exports = express.createServer()
-coffeeDir = __dirname + '/coffee'
 publicDir = __dirname + '/public'
 
 # Configuration
@@ -14,7 +13,6 @@ app.configure( () ->
 		app.use express.bodyParser()
 		app.use express.methodOverride()
 		app.use app.router
-		app.use require('connect-assets')()
 		app.use express.static(publicDir)
 )
 

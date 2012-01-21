@@ -1,10 +1,9 @@
 (function(){
-  var app, coffeeDir, express, port, publicDir, routes;
+  var app, express, port, publicDir, routes;
   // Module dependencies.
   express = require('express');
   routes = require('./routes');
   app = (module.exports = express.createServer());
-  coffeeDir = __dirname + '/coffee';
   publicDir = __dirname + '/public';
   // Configuration
   app.configure(function() {
@@ -13,7 +12,6 @@
     app.use(express.bodyParser());
     app.use(express.methodOverride());
     app.use(app.router);
-    app.use(require('connect-assets')());
     return app.use(express.static(publicDir));
   });
   app.configure('development', function() {
