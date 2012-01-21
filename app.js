@@ -1,5 +1,5 @@
 (function(){
-  var app, coffeeDir, express, publicDir, routes;
+  var app, coffeeDir, express, port, publicDir, routes;
   // Module dependencies.
   express = require('express');
   routes = require('./routes');
@@ -28,6 +28,7 @@
   });
   // Routes
   app.get('/', routes.index);
-  app.listen(3000);
+  port = process.env.port || 3000;
+  app.listen(port);
   console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 })();
