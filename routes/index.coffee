@@ -9,8 +9,15 @@ exports.index = ( req, res ) ->
 exports.indexPost = ( req, res ) ->
 	# TODO: save!
 	# now give the client-side code information about the saved list
+	id = getRandomString 5
 	res.send {
 		data: {
-			id: 'random-id'
+			id: id
 		}
 	}
+
+getRandomString = ( len ) ->
+	id = ''
+	for i in [1..len]
+		id += String.fromCharCode (Math.random() * 25) + 65
+	id
