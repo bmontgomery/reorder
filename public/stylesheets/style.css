@@ -1,3 +1,4 @@
+/* palette: www.colorcombos.com/color-schemes/327/ColorCombo32.html */
 body {
 	background-color: #7db6d5;
 }
@@ -28,5 +29,9 @@ div.item {
 	padding: 15px;
 }
 div.close-button {
+	cursor: pointer;
 	float: right;
+}
+div.close-button:hover {
+	color: #9d232c;
 }
