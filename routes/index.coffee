@@ -9,12 +9,16 @@ exports.index = ( req, res ) ->
 exports.indexPost = ( req, res ) ->
 	# TODO: save!
 	# now give the client-side code information about the saved list
-	id = getRandomString 5
-	res.send {
-		data: {
-			id: id
+	console.log req.body.id
+	if req.body.id and req.body.id != ''
+		res.send ''
+	else
+		id = getRandomString 5
+		res.send {
+			data: {
+				id: id
+			}
 		}
-	}
 
 getRandomString = ( len ) ->
 	id = ''

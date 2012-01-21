@@ -11,12 +11,17 @@
     var id;
     // TODO: save!
     // now give the client-side code information about the saved list
-    id = getRandomString(5);
-    return res.send({
-      data: {
-        id: id
-      }
-    });
+    console.log(req.body.id);
+    if (req.body.id && req.body.id !== '') {
+      return res.send('');
+    } else {
+      id = getRandomString(5);
+      return res.send({
+        data: {
+          id: id
+        }
+      });
+    }
   };
   getRandomString = function(len) {
     var _a, _b, i, id;
