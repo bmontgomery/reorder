@@ -20,8 +20,17 @@ input {
 	-webkit-border-radius: 4px;
 	padding: 10px;
 }
+input[type=button] {
+	width: 100px;
+}
+input[type=button]:hover {
+	background-color: #e7a555;
+}
 input#txtName {
 	width: 500px;
+	margin-right: 15px;
+}
+input#btnAdd {
 	margin-right: 15px;
 }
 div#container {
@@ -39,4 +48,7 @@ div.close-button {
 }
 div.close-button:hover {
 	color: #9d232c;
+}
+p#link {
+	display: none;
 }

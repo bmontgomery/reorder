@@ -1,19 +1,26 @@
 script
-	var txtName,
-			btnAdd;
+	var container,
+			txtName,
+			btnAdd,
+			btnSave,
+			itemDataKey = 'itemData';
 
 	$(function(){
+			container = $('#container');
 			txtName = $('#txtName');
 			btnAdd = $('#btnAdd');
+			btnSave = $('#btnSave');
 
 			txtName.focus();
 
-			$('#container').sortable();
+			container.sortable();
 
 			txtName.on('keypress', btnAdd_KeyPress);
 			btnAdd.on('click', btnAdd_Click);
 
 			$('div.close-button').live('click', removeItem);
+
+			btnSave.on('click', btnSave_Click);
 	});
 
 	function btnAdd_KeyPress(e) {
@@ -31,7 +38,8 @@ script
 	}
 
 	function makeItem(name) {
-		return $('#item').tmpl({name: txtName.val()});;
+		var itemData = { name: txtName.val() };
+		return $('#item').tmpl( itemData ).data(itemDataKey, itemData);
 	}
 
 	function removeItem(e) {
@@ -39,13 +47,43 @@ script
 		$(e.target).closest('div.item').remove();
 	}
 
+	function btnSave_Click(e) {
+		e = e || window.event;
+		var items = [];
+		container.find('div.item').each(function( index, item ) {
+			items.push( $(item).data( itemDataKey ) );
+		});
+		if (items.length > 0) {
+			$.ajax({
+				type: 'POST',
+				contentType: 'application/json;charset=utf-8',
+				data: JSON.stringify({ items: items}),
+				dataType: 'json',
+				success: function( data ) {
+					if (data && data.data) {
+						$('#linkTemplate').tmpl(data.data).appendTo('#link');
+						$('#link').show();
+					}
+				}
+			});
+		} else {
+			alert('There are no items to save, silly!');
+		}
+	}
+
 script#item(type="text/x-jquery-template")
 	<div class="item">
 	${name}
 	<div class="close-button">X</div>
 	</div>
+
+script#linkTemplate(type="text/x-jquery-template")
+	| Your list is available here: ${id}
+
 h1= title
 p Welcome to #{title}. Go for it.
+p#link
 input#txtName(type="text")
 input#btnAdd(type="button", value="Add")
+input#btnSave(type="button", value="Save")
 div#container
