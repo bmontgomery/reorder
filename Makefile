@@ -1,7 +1,4 @@
-all : clean app.js reorder.js index.js
-
-reorder.js : public/javascripts/reorder.coffee
-	coffee -c public/javascripts/reorder.coffee
+all : clean app.js index.js
 
 app.js : app.coffee
 	coffee -c app.coffee
