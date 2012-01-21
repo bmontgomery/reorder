@@ -3,7 +3,8 @@ script
 			txtName,
 			btnAdd,
 			btnSave,
-			itemDataKey = 'itemData';
+			itemDataKey = 'itemData',
+			listID = '';
 
 	$(function(){
 			container = $('#container');
@@ -57,12 +58,18 @@ script
 			$.ajax({
 				type: 'POST',
 				contentType: 'application/json;charset=utf-8',
-				data: JSON.stringify({ items: items}),
+				data: JSON.stringify({ id: listID, items: items }),
 				dataType: 'json',
 				success: function( data ) {
 					if (data && data.data) {
-						$('#linkTemplate').tmpl(data.data).appendTo('#link');
-						$('#link').show();
+						if (listID) {
+							$('#link').text('Your list has been saved.');
+						} else {
+							$('#link').html('');
+							$('#linkTemplate').tmpl(data.data).appendTo('#link');
+							$('#link').show();
+							listID = data.data.id;
+						}
 					}
 				}
 			});
