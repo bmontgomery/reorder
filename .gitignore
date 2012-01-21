@@ -1,3 +1,4 @@
 public/javascripts/reorder.js
 app.js
 node_modules
+routes/index.js
