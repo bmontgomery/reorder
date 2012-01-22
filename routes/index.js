@@ -10,8 +10,8 @@
       title: 'Reorder',
       scripts: ['https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js', 'http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js']
     };
-    if (req.params.id && req.params.id > 0) {
-      return listProvider.findById(parseInt(req.params.id), function(x, r) {
+    if (req.params.id && req.params.id.match("^[A-Z]+$")) {
+      return listProvider.findByTextID(req.params.id, function(x, r) {
         viewData.item = r;
         return res.render('index', viewData);
       });

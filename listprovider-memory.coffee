@@ -8,9 +8,15 @@ ListProvider.prototype.findAll = ( callback ) ->
 	callback null, this.dummyData
 
 ListProvider.prototype.findById = ( id, callback ) ->
-	result = null
 	for i in [0..this.dummyData.length - 1]
 		if this.dummyData[i].id == id
+			result = this.dummyData[i]
+			break
+	callback null, result
+
+ListProvider.prototype.findByTextID = ( textID, callback ) ->
+	for i in [0..this.dummyData.length -1]
+		if this.dummyData[i].textID == textID
 			result = this.dummyData[i]
 			break
 	callback null, result
@@ -22,8 +28,11 @@ ListProvider.prototype.save = ( lists, callback ) ->
 	for i in [0..lists.length - 1]
 		list = lists[i]
 
-		if list.id > 0
-			this.dummyData[list.id] = list
+		console.log list.id
+		if list.id and list.id.match "^[A-Z]+$"
+			this.findByTextID list.id, ( x, result ) ->
+				result.name = list.name
+				result.items = list.items
 		else
 			list.id = listCounter++
 			list.textID = this.getRandomString 5

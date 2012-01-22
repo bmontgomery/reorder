@@ -10,8 +10,8 @@ exports.index = ( req, res ) ->
 		scripts: ['https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js','https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js','http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js']
 	}
 
-	if req.params.id and req.params.id > 0
-		listProvider.findById parseInt(req.params.id), ( x, r ) ->
+	if req.params.id and req.params.id.match "^[A-Z]+$"
+		listProvider.findByTextID req.params.id, ( x, r ) ->
 			viewData.item = r
 			res.render 'index', viewData
 	else
