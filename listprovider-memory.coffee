@@ -21,17 +21,26 @@ ListProvider.prototype.save = ( lists, callback ) ->
 
 	for i in [0..lists.length - 1]
 		list = lists[i]
-		list.id = listCounter++
-		list.created_at = new Date()
 
-		this.dummyData[this.dummyData.length] = list
+		if list.id > 0
+			this.dummyData[list.id] = list
+		else
+			list.id = listCounter++
+			list.textID = this.getRandomString 5
+			list.created_at = new Date()
+			this.dummyData[this.dummyData.length] = list
 	
 	callback null, lists
+
+ListProvider.prototype.getRandomString = ( len ) ->
+	id = ''
+	for i in [1..len]
+		id += String.fromCharCode (Math.random() * 25) + 65
+	id
 
 # bootstrap with dummy data
 new ListProvider().save [{
 	name: 'list 1'
-	textID: 'YSNKM'
 	items: [{
 		name: 'item 1'
 	},

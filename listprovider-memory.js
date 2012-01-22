@@ -24,17 +24,30 @@
     _a = 0; _b = lists.length - 1;
     for (i = _a; (_a <= _b ? i <= _b : i >= _b); (_a <= _b ? i += 1 : i -= 1)) {
       list = lists[i];
-      list.id = listCounter++;
-      list.created_at = new Date();
-      this.dummyData[this.dummyData.length] = list;
+      if (list.id > 0) {
+        this.dummyData[list.id] = list;
+      } else {
+        list.id = listCounter++;
+        list.textID = this.getRandomString(5);
+        list.created_at = new Date();
+        this.dummyData[this.dummyData.length] = list;
+      }
     }
     return callback(null, lists);
+  };
+  ListProvider.prototype.getRandomString = function(len) {
+    var _a, _b, i, id;
+    id = '';
+    _a = 1; _b = len;
+    for (i = _a; (_a <= _b ? i <= _b : i >= _b); (_a <= _b ? i += 1 : i -= 1)) {
+      id += String.fromCharCode((Math.random() * 25) + 65);
+    }
+    return id;
   };
   // bootstrap with dummy data
   new ListProvider().save([
     {
       name: 'list 1',
-      textID: 'YSNKM',
       items: [
         {
           name: 'item 1'
