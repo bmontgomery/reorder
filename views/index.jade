@@ -20,6 +20,11 @@ script
 				for (var i = 0; i < initItem.items.length; i++) {
 					makeItemElement(initItem.items[i]).appendTo('#container');
 				}
+				$('#link').html('');
+				$('#linkTemplate').tmpl( { id: initItem.textID } ).appendTo('#link');
+				$('#link').show();
+
+				listID = initItem.textID;
 			}
 
 			container.sortable();
@@ -97,7 +102,7 @@ script#item(type="text/x-jquery-template")
 	</div>
 
 script#linkTemplate(type="text/x-jquery-template")
-	| Your list is available here: ${id}
+	| Your list is available here: <a href="#{toAbsolute('/', req)}${id}">#{toAbsolute('/', req)}${id}</a>
 
 h1= title
 p Welcome to #{title}. Go for it.

@@ -1,7 +1,10 @@
-all : app.js listprovider-mongodb.js listprovider-memory.js routes/index.js public/javascripts/reorder.js
+all : app.js helpers.js listprovider-mongodb.js listprovider-memory.js routes/index.js public/javascripts/reorder.js
 
 app.js : app.coffee
 	coffee -c app.coffee
+
+helpers.js : helpers.coffee
+	coffee -c helpers.coffee
 
 listprovider-memory.js : listprovider-memory.coffee
 	coffee -c listprovider-memory.coffee

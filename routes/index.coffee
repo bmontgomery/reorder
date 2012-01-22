@@ -11,6 +11,7 @@ exports.index = ( req, res ) ->
 	}
 
 	if req.params.id and req.params.id.match "^[A-Z]+$"
+		console.log 'loading existing list with id ' + req.params.id
 		listProvider.findByTextID req.params.id, ( x, r ) ->
 			viewData.item = r
 			res.render 'index', viewData
@@ -18,6 +19,7 @@ exports.index = ( req, res ) ->
 		res.render 'index', viewData
 
 exports.indexPost = ( req, res ) ->
+	console.log 'saving list with id ' + req.body.textID
 	listProvider.save req.body, ( x, lists ) ->
 		res.send {
 			data: {

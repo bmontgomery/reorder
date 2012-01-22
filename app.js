@@ -1,8 +1,9 @@
 (function(){
-  var app, express, port, publicDir, routes;
+  var app, express, helpers, port, publicDir, routes;
   // Module dependencies.
   express = require('express');
   routes = require('./routes');
+  helpers = require('./helpers.js');
   app = (module.exports = express.createServer());
   publicDir = __dirname + '/public';
   // Configuration
@@ -24,6 +25,9 @@
   app.configure('production', function() {
     return app.use(express.errorHandler());
   });
+  // Helpers
+  app.helpers(helpers.Helpers);
+  app.dynamicHelpers(helpers.DynamicHelpers);
   // Routes
   app.get('/', routes.index);
   app.get('/:id', routes.index);
