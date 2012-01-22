@@ -71,7 +71,9 @@ script
 		container.find('div.item').each(function( index, item ) {
 			items.push( $(item).data( itemDataKey ) );
 		});
-		if (items.length > 0) {
+		if (!listID && items.length === 0) {
+			alert('There are no items to save, silly!');
+		} else {
 			$.ajax({
 				type: 'POST',
 				contentType: 'application/json;charset=utf-8',
@@ -89,8 +91,6 @@ script
 					}
 				}
 			});
-		} else {
-			alert('There are no items to save, silly!');
 		}
 	}
 
