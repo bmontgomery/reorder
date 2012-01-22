@@ -26,6 +26,7 @@
   });
   // Routes
   app.get('/', routes.index);
+  app.get('/:id', routes.index);
   app.post('/', routes.indexPost);
   port = process.env.PORT || 3000;
   app.listen(port);
