@@ -4,7 +4,8 @@ script
 			btnAdd,
 			btnSave,
 			itemDataKey = 'itemData',
-			listID = '';
+			listID = '',
+			initItem = !{JSON.stringify(item)};
 
 	$(function(){
 			container = $('#container');
@@ -13,6 +14,13 @@ script
 			btnSave = $('#btnSave');
 
 			txtName.focus();
+
+			// see if we have initItem
+			if (initItem && initItem.items) {
+				for (var i = 0; i < initItem.items.length; i++) {
+					makeItemElement(initItem.items[i]).appendTo('#container');
+				}
+			}
 
 			container.sortable();
 
@@ -40,6 +48,10 @@ script
 
 	function makeItem(name) {
 		var itemData = { name: txtName.val() };
+		return makeItemElement( itemData );	
+	}
+
+	function makeItemElement( itemData ) {
 		return $('#item').tmpl( itemData ).data(itemDataKey, itemData);
 	}
 
