@@ -1,7 +1,7 @@
 (function(){
   var ListProvider, listProvider;
-  ListProvider = require('../listprovider-memory.js').ListProvider;
-  listProvider = new ListProvider();
+  ListProvider = require('../listprovider-mongodb.js').ListProvider;
+  listProvider = new ListProvider('localhost', 27017);
   // GET home page.
   exports.index = function(req, res) {
     var viewData;
