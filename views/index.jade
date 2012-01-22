@@ -75,18 +75,17 @@ script
 			$.ajax({
 				type: 'POST',
 				contentType: 'application/json;charset=utf-8',
-				data: JSON.stringify({ id: listID, items: items }),
+				data: JSON.stringify({ textID: listID, items: items }),
 				dataType: 'json',
 				success: function( data ) {
 					if (data && data.data) {
+						$('#link').html('');
 						if (listID) {
-							$('#link').text('Your list has been saved.');
-						} else {
-							$('#link').html('');
-							$('#linkTemplate').tmpl(data.data).appendTo('#link');
-							$('#link').show();
-							listID = data.data.id;
+							data.data.id = listID;
 						}
+						$('#linkTemplate').tmpl(data.data).appendTo('#link');
+						$('#link').show();
+						listID = data.data.id;
 					}
 				}
 			});

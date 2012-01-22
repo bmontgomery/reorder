@@ -13,6 +13,7 @@
     if (req.params.id && req.params.id.match("^[A-Z]+$")) {
       console.log('loading existing list with id ' + req.params.id);
       return listProvider.findByTextID(req.params.id, function(x, r) {
+        console.log('found item ' + r.textID);
         viewData.item = r;
         return res.render('index', viewData);
       });

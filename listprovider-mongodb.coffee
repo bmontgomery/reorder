@@ -64,14 +64,14 @@ ListProvider.prototype.save = ( lists, callback ) ->
 			for i in [0..lists.length - 1]
 				list = lists[i]
 
-				if list.id and list.id.match "^[A-Z]+$"
-					that.findByTextID list.id, ( x, result ) ->
-						result.name = list.name
+				if list.textID and list.textID.match "^[A-Z]+$" 
+					that.findByTextID list.textID, ( x, result ) ->
 						result.items = list.items
-						list_collection.update result, () ->
+						list_collection.update { _id: result._id }, result, () ->
 				else
 					list.textID = that.getRandomString 5
 					list.created_at = new Date()
+					console.log 'inserting list'
 					list_collection.insert list, () ->
 	
 	callback null, lists

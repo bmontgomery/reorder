@@ -82,15 +82,17 @@
         for (i = _b; (_b <= _c ? i <= _c : i >= _c); (_b <= _c ? i += 1 : i -= 1)) {
           _a.push((function() {
             list = lists[i];
-            if (list.id && list.id.match("^[A-Z]+$")) {
-              return that.findByTextID(list.id, function(x, result) {
-                result.name = list.name;
+            if (list.textID && list.textID.match("^[A-Z]+$")) {
+              return that.findByTextID(list.textID, function(x, result) {
                 result.items = list.items;
-                return list_collection.update(result, function() {                });
+                return list_collection.update({
+                  _id: result._id
+                }, result, function() {                });
               });
             } else {
               list.textID = that.getRandomString(5);
               list.created_at = new Date();
+              console.log('inserting list');
               return list_collection.insert(list, function() {              });
             }
           })());
