@@ -6,7 +6,11 @@ ObjectID = require('mongodb').ObjectID
 
 ListProvider = ( host, port ) ->
 	this.db = new Db 'node-mongo-reorder', new Server( host, port, { auto_reconnect: true }, {} )
-	this.db.open( () -> )
+	that = this
+	this.db.open () ->
+		that.getCollection ( error, list_collection) ->
+			if not error
+				list_collection.ensureIndex { textID: 1 }, {unique: true}
 
 ListProvider.prototype.getCollection = ( callback ) ->
 	this.db.collection 'lists', ( error, list_collection ) ->
@@ -70,6 +74,7 @@ ListProvider.prototype.save = ( lists, callback ) ->
 						list_collection.update { _id: result._id }, result, () ->
 				else
 					list.textID = that.getRandomString 5
+					# todo: ensure that the random string is unique!
 					list.created_at = new Date()
 					console.log 'inserting list'
 					list_collection.insert list, () ->

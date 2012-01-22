@@ -6,10 +6,23 @@
   BSON = require('mongodb').BSON;
   ObjectID = require('mongodb').ObjectID;
   ListProvider = function(host, port) {
+    var that;
     this.db = new Db('node-mongo-reorder', new Server(host, port, {
       auto_reconnect: true
     }, {}));
-    return this.db.open(function() {    });
+    that = this;
+    return this.db.open(function() {
+      return that.getCollection(function(error, list_collection) {
+        if (!error) {
+          console.log('ensuring index');
+          return list_collection.ensureIndex({
+            textID: 1
+          }, {
+            unique: true
+          });
+        }
+      });
+    });
   };
   ListProvider.prototype.getCollection = function(callback) {
     return this.db.collection('lists', function(error, list_collection) {
@@ -91,6 +104,7 @@
               });
             } else {
               list.textID = that.getRandomString(5);
+              // todo: ensure that the random string is unique!
               list.created_at = new Date();
               console.log('inserting list');
               return list_collection.insert(list, function() {              });
