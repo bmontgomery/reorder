@@ -1,5 +1,5 @@
 ListProvider = require('../listprovider-mongodb.js').ListProvider
-listProvider = new ListProvider 'staff.mongodb.com', 10029
+listProvider = new ListProvider 'staff.mongohq.com', 10029
 
 # GET home page.
 
