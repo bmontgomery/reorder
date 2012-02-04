@@ -15,6 +15,6 @@
     dbAuth: false
   };
   settings = devSettings;
-  process.env.NODE_ENV === 'production' ? (settings = prodSettings) : null;
+  process.env.NODE_ENV === 'production' ? (settings = productionSettings) : null;
   exports.Settings = settings;
 })();

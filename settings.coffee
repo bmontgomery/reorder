@@ -17,6 +17,6 @@ devSettings = {
 settings = devSettings
 
 if process.env.NODE_ENV is 'production'
-	settings = prodSettings
+	settings = productionSettings
 
 exports.Settings = settings
