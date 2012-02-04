@@ -7,7 +7,7 @@
   ObjectID = require('mongodb').ObjectID;
   ListProvider = function(host, port) {
     var that;
-    this.db = new Db('node-mongo-reorder', new Server(host, port, {
+    this.db = new Db('app2570362', new Server(host, port, {
       auto_reconnect: true
     }, {}));
     that = this;
