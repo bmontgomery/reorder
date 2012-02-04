@@ -8,7 +8,7 @@ ListProvider = ( host, port ) ->
 	this.db = new Db 'app2570362', new Server( host, port, { auto_reconnect: true }, {} )
 	that = this
 	this.db.open () ->
-		db.authenticate 'heroku', 'CherryBrown42', ( error ) ->
+		that.db.authenticate 'heroku', 'CherryBrown42', ( error ) ->
 			console.log error if error
 			that.getCollection ( error, list_collection) ->
 				if not error

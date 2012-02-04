@@ -12,7 +12,7 @@
     }, {}));
     that = this;
     return this.db.open(function() {
-      return db.authenticate('heroku', 'CherryBrown42', function(error) {
+      return that.db.authenticate('heroku', 'CherryBrown42', function(error) {
         if (error) {
           console.log(error);
         }
