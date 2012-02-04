@@ -1,7 +1,7 @@
 (function(){
   var ListProvider, listProvider;
   ListProvider = require('../listprovider-mongodb.js').ListProvider;
-  listProvider = new ListProvider('staff.mongohq.com', 10029);
+  listProvider = new ListProvider();
   // GET home page.
   exports.index = function(req, res) {
     var viewData;

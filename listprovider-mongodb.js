@@ -1,21 +1,35 @@
 (function(){
-  var BSON, Connection, Db, ListProvider, ObjectID, Server;
+  var BSON, Connection, Db, ListProvider, ObjectID, Server, Settings;
   Db = require('mongodb').Db;
   Connection = require('mongodb').Connection;
   Server = require('mongodb').Server;
   BSON = require('mongodb').BSON;
   ObjectID = require('mongodb').ObjectID;
-  ListProvider = function(host, port) {
+  // load environment settings
+  Settings = require('./settings.js').Settings;
+  ListProvider = function() {
     var that;
-    this.db = new Db('app2570362', new Server(host, port, {
+    this.db = new Db(Settings.dbName, new Server(Settings.dbHost, Settings.dbPort, {
       auto_reconnect: true
     }, {}));
     that = this;
     return this.db.open(function() {
-      return that.db.authenticate('heroku', 'CherryBrown42', function(error) {
-        if (error) {
-          console.log(error);
-        }
+      if (Settings.dbAuth) {
+        return that.db.authenticate(Settings.dbUser, Settings.dbPassword, function(error) {
+          if (error) {
+            console.log(error);
+          }
+          return that.getCollection(function(error, list_collection) {
+            if (!error) {
+              return list_collection.ensureIndex({
+                textID: 1
+              }, {
+                unique: true
+              });
+            }
+          });
+        });
+      } else {
         return that.getCollection(function(error, list_collection) {
           if (!error) {
             return list_collection.ensureIndex({
@@ -25,7 +39,7 @@
             });
           }
         });
-      });
+      }
     });
   };
   ListProvider.prototype.getCollection = function(callback) {

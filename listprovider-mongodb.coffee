@@ -4,12 +4,20 @@ Server = require('mongodb').Server
 BSON = require('mongodb').BSON
 ObjectID = require('mongodb').ObjectID
 
-ListProvider = ( host, port ) ->
-	this.db = new Db 'app2570362', new Server( host, port, { auto_reconnect: true }, {} )
+# load environment settings
+Settings = require('./settings.js').Settings
+
+ListProvider = ->
+	this.db = new Db Settings.dbName, new Server( Settings.dbHost, Settings.dbPort, { auto_reconnect: true }, {} )
 	that = this
 	this.db.open () ->
-		that.db.authenticate 'heroku', 'CherryBrown42', ( error ) ->
-			console.log error if error
+		if Settings.dbAuth
+			that.db.authenticate Settings.dbUser, Settings.dbPassword, ( error ) ->
+				console.log error if error
+				that.getCollection ( error, list_collection) ->
+					if not error
+						list_collection.ensureIndex { textID: 1 }, {unique: true}
+		else
 			that.getCollection ( error, list_collection) ->
 				if not error
 					list_collection.ensureIndex { textID: 1 }, {unique: true}

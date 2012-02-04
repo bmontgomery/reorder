@@ -1,4 +1,7 @@
-all : app.js helpers.js listprovider-mongodb.js listprovider-memory.js routes/index.js public/javascripts/reorder.js
+all : app.js settings.js helpers.js listprovider-mongodb.js listprovider-memory.js routes/index.js public/javascripts/reorder.js
+
+settings.js: settings.coffee
+	coffee -c settings.coffee
 
 app.js : app.coffee
 	coffee -c app.coffee
