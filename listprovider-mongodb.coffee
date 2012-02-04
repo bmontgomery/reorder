@@ -72,19 +72,27 @@ ListProvider.prototype.save = ( lists, callback ) ->
 					that.findByTextID list.textID, ( x, result ) ->
 						result.items = list.items
 						list_collection.update { _id: result._id }, result, () ->
+						callback null, lists
 				else
 					list.textID = that.getRandomString 5
-					# todo: ensure that the random string is unique!
-					list.created_at = new Date()
-					console.log 'inserting list'
-					list_collection.insert list, () ->
-	
-	callback null, lists
+					that.getUniqueRandomString 5, () ->
+						list.created_at = new Date()
+						list_collection.insert list, () ->
+							callback null, lists
 
 ListProvider.prototype.getRandomString = ( len ) ->
 	id = ''
 	for i in [1..len]
 		id += String.fromCharCode (Math.random() * 25) + 65
 	id
+
+ListProvider.prototype.getUniqueRandomString = ( len, callback ) ->
+	that = this
+	result = this.getRandomString len
+	this.findByTextID result, ( error, results ) ->
+		if not results or results.length is 0
+			callback()
+		else
+			that.getUniqueRandomString len, callback
 
 exports.ListProvider = ListProvider

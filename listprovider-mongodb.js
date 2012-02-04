@@ -14,7 +14,6 @@
     return this.db.open(function() {
       return that.getCollection(function(error, list_collection) {
         if (!error) {
-          console.log('ensuring index');
           return list_collection.ensureIndex({
             textID: 1
           }, {
@@ -85,7 +84,7 @@
   ListProvider.prototype.save = function(lists, callback) {
     var that;
     that = this;
-    this.getCollection(function(error, list_collection) {
+    return this.getCollection(function(error, list_collection) {
       var _a, _b, _c, i, list;
       if (error) {
         return callback(error);
@@ -98,23 +97,25 @@
             if (list.textID && list.textID.match("^[A-Z]+$")) {
               return that.findByTextID(list.textID, function(x, result) {
                 result.items = list.items;
-                return list_collection.update({
+                list_collection.update({
                   _id: result._id
                 }, result, function() {                });
+                return callback(null, lists);
               });
             } else {
               list.textID = that.getRandomString(5);
-              // todo: ensure that the random string is unique!
-              list.created_at = new Date();
-              console.log('inserting list');
-              return list_collection.insert(list, function() {              });
+              return that.getUniqueRandomString(5, function() {
+                list.created_at = new Date();
+                return list_collection.insert(list, function() {
+                  return callback(null, lists);
+                });
+              });
             }
           })());
         }
         return _a;
       }
     });
-    return callback(null, lists);
   };
   ListProvider.prototype.getRandomString = function(len) {
     var _a, _b, i, id;
@@ -124,6 +125,18 @@
       id += String.fromCharCode((Math.random() * 25) + 65);
     }
     return id;
+  };
+  ListProvider.prototype.getUniqueRandomString = function(len, callback) {
+    var result, that;
+    that = this;
+    result = this.getRandomString(len);
+    return this.findByTextID(result, function(error, results) {
+      if (!results || results.length === 0) {
+        return callback();
+      } else {
+        return that.getUniqueRandomString(len, callback);
+      }
+    });
   };
   exports.ListProvider = ListProvider;
 })();
