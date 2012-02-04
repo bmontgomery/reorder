@@ -1,8 +1,9 @@
 (function(){
-  var DynamicHelpers, Helpers;
+  var DynamicHelpers, Helpers, Url;
+  Url = require('url');
   Helpers = {
     toAbsolute: function(url, req) {
-      return 'http://' + req.headers.host + url;
+      return Url.resolve('http://' + req.headers.host, url);
     }
   };
   DynamicHelpers = {

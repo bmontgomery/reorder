@@ -1,6 +1,8 @@
+Url = require 'url'
+
 Helpers = {
 	toAbsolute: ( url, req ) ->
-		'http://' + req.headers.host + url
+		Url.resolve 'http://' + req.headers.host, url 
 }
 
 DynamicHelpers = {
