@@ -12,14 +12,19 @@
     }, {}));
     that = this;
     return this.db.open(function() {
-      return that.getCollection(function(error, list_collection) {
-        if (!error) {
-          return list_collection.ensureIndex({
-            textID: 1
-          }, {
-            unique: true
-          });
+      return db.authenticate('heroku', 'CherryBrown42', function(error) {
+        if (error) {
+          console.log(error);
         }
+        return that.getCollection(function(error, list_collection) {
+          if (!error) {
+            return list_collection.ensureIndex({
+              textID: 1
+            }, {
+              unique: true
+            });
+          }
+        });
       });
     });
   };
